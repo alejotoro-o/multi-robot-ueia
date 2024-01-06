@@ -1,0 +1,8 @@
+Grant Permisions to USB port:
+
+sudo chmod 0666 /dev/ttyUSB0
+
+
+Reset ESP32:
+
+python3 esptool.py --port /dev/ttyUSB0 write_flash_status --non-volatile
