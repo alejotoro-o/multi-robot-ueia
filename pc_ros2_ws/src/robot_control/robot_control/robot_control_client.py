@@ -18,9 +18,9 @@ class NavToPoseActionClient(Node):
     def send_goal(self, x, y, theta):
 
         goal_msg = NavToPose.Goal()
-        goal_msg.x = x
-        goal_msg.y = y
-        goal_msg.theta = theta
+        goal_msg.pose.x = x
+        goal_msg.pose.y = y
+        goal_msg.pose.theta = theta
 
         self._action_client.wait_for_server()
 

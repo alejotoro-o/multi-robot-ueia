@@ -1,6 +1,4 @@
-float32 x
-float32 y
-float32 theta
+geometry_msgs/Pose2D pose
 ---
 string result
 ---

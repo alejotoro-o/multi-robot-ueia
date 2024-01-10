@@ -94,9 +94,9 @@ class LQRController(Node):
 
         self.goal_handle = goal_handle
 
-        x_goal = goal_handle.request.x
-        y_goal = goal_handle.request.y
-        theta_goal = goal_handle.request.theta
+        x_goal = goal_handle.request.pose.x
+        y_goal = goal_handle.request.pose.y
+        theta_goal = goal_handle.request.pose.theta
 
         self.q_goal = np.array([[x_goal, y_goal, theta_goal]]).T
 
