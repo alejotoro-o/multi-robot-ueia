@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'lqr_controller = robot_control.lqr_controller:main'
+            'lqr_controller = robot_control.lqr_controller:main',
+            'navtopose_client = robot_control.robot_control_client:main'
         ],
     },
 )

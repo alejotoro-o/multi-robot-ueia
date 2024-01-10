@@ -6,7 +6,7 @@ from control import dlqr
 
 import rclpy
 from rclpy.node import Node
-from rclpy.action import ActionServer
+from rclpy.action import ActionServer, CancelResponse
 from rclpy.executors import MultiThreadedExecutor
 
 from geometry_msgs.msg import Pose
@@ -43,7 +43,7 @@ class LQRController(Node):
         self._pose_subscription = self.create_subscription(Pose, 'pose', self._control_callback, 1)
         self._cmd_vel_publisher = self.create_publisher(Twist, 'cmd_vel', 10)
 
-        self._nav_to_pose_action_server = ActionServer(self, NavToPose, 'nav_to_pose', self.nav_to_pose_callback)
+        self._nav_to_pose_action_server = ActionServer(self, NavToPose, 'nav_to_pose', self.nav_to_pose_callback, cancel_callback=self.cancel_callback)
         self.goal_handle = None
         self.goal_result = NavToPose.Result()
         self.feedback_msg = NavToPose.Feedback()
@@ -73,8 +73,22 @@ class LQRController(Node):
 
         self._cmd_vel_publisher.publish(twist_msg)
         
+    # def accept_nav_to_pose_callback(self, goal_handle):
+
+    #     if self.goal_handle:
+            
+    #         self.get_logger().info('New goal received, aborting previous goal')
+    #         self.goal_handle.abort()
+    #         self.get_logger().info(str(self.goal_handle.status))
+
+    #     goal_handle.execute(self.nav_to_pose_callback)
 
     async def nav_to_pose_callback(self, goal_handle):
+
+        if self.goal_handle:
+            
+            self.get_logger().info('New goal received, aborting previous goal')
+            self.goal_handle.abort()
 
         self.get_logger().info('Executing goal...')
 
@@ -100,14 +114,39 @@ class LQRController(Node):
             self.feedback_msg.error = [distance_to_goal, heading_error]
             self.get_logger().info('Feedback: {0}'.format(self.feedback_msg.error))
 
+            if self.goal_handle.is_cancel_requested:
+
+                self.goal_handle.canceled()
+                self.goal_handle = None
+                self.goal_result.result = "Goal canceled"
+                self.get_logger().info(self.goal_result.result)
+                return self.goal_result
+
+            if self.goal_handle != goal_handle:
+
+                self.goal_result.result = "New goal received, aborting previous goal"
+                self.get_logger().info(self.goal_result.result)
+                return self.goal_result
+
 
         self.goal_handle.succeed()
 
         self.goal_result.result = "Arrived to goal"
+        self.get_logger().info(self.goal_result.result)
 
         self.goal_handle = None
 
         return self.goal_result
+    
+    def cancel_callback(self, goal_handle):
+        """Accept or reject a client request to cancel an action."""
+        self.get_logger().info('Received cancel request')
+
+        if self.goal_handle:
+
+            self.q_goal = self.q
+
+        return CancelResponse.ACCEPT
 
 
 
