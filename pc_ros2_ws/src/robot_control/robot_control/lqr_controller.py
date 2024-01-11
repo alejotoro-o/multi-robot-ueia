@@ -43,7 +43,10 @@ class LQRController(Node):
         self._pose_subscription = self.create_subscription(Pose, 'pose', self._control_callback, 1)
         self._cmd_vel_publisher = self.create_publisher(Twist, 'cmd_vel', 10)
 
-        self._nav_to_pose_action_server = ActionServer(self, NavToPose, 'nav_to_pose', self.nav_to_pose_callback, cancel_callback=self.cancel_callback)
+        self._nav_to_pose_action_server = ActionServer(self, NavToPose,
+                                                       'nav_to_pose',
+                                                       self.nav_to_pose_callback,
+                                                       cancel_callback=self.cancel_callback)
         self.goal_handle = None
         self.goal_result = NavToPose.Result()
         self.feedback_msg = NavToPose.Feedback()

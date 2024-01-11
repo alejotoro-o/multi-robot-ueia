@@ -70,6 +70,11 @@ def generate_launch_description():
         executable='lqr_controller'
     )
 
+    follow_path_server = Node(
+        package='robot_control',
+        executable='followpath_server'
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument(
             'world',
@@ -91,6 +96,7 @@ def generate_launch_description():
         joint_state_publisher,
 
         lqr_controller,
+        follow_path_server,
 
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(

@@ -11,7 +11,7 @@ class NavToPoseActionClient(Node):
 
     def __init__(self):
 
-        super().__init__('navtopose_action_client')
+        super().__init__('nav_to_pose_client')
         self._action_client = ActionClient(self, NavToPose, 'nav_to_pose')
         self.goal_handle = None
 

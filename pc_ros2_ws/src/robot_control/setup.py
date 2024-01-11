@@ -21,7 +21,9 @@ setup(
     entry_points={
         'console_scripts': [
             'lqr_controller = robot_control.lqr_controller:main',
-            'navtopose_client = robot_control.robot_control_client:main'
+            'navtopose_client = robot_control.robot_control_client:main',
+
+            'followpath_server = robot_control.follow_path:main'
         ],
     },
 )
