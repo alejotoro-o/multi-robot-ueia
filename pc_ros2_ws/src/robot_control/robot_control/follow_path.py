@@ -16,7 +16,8 @@ class FollowPathServer(Node):
 
         self._follow_path_server = ActionServer(self, FollowPath,
                                                       'follow_path',
-                                                      self.follow_path_callback)
+                                                      self.follow_path_callback,
+                                                      cancel_callback=self.cancel_callback)
         self._nav_to_pose_client = ActionClient(self, NavToPose, 'nav_to_pose')
 
         self.follow_path_goal_handle = None
@@ -49,7 +50,20 @@ class FollowPathServer(Node):
             self.navigating_to_waypoint = True
 
             while self.navigating_to_waypoint:
-                pass
+
+                if self.follow_path_goal_handle.is_cancel_requested:
+
+                    self.follow_path_goal_handle.canceled()
+                    self.follow_path_goal_handle = None
+                    self.goal_result.result = "Path canceled"
+                    self.get_logger().info(self.goal_result.result)
+                    return self.goal_result
+
+                if self.follow_path_goal_handle != goal_handle:
+
+                    self.goal_result.result = "New path received, aborting previous path"
+                    self.get_logger().info(self.goal_result.result)
+                    return self.goal_result
             
         ################
 

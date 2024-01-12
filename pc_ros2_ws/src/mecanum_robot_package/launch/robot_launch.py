@@ -72,7 +72,7 @@ def generate_launch_description():
 
     follow_path_server = Node(
         package='robot_control',
-        executable='followpath_server'
+        executable='follow_path_server'
     )
 
     return LaunchDescription([
