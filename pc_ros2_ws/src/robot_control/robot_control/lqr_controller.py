@@ -27,8 +27,8 @@ class LQRController(Node):
         # self.declare_parameter('R', 0.1*[1., 0., 0., 0., 1., 0., 0., 0., 1.])
 
         # Controller gains
-        Q = 0.1*np.identity(3)
-        R = 0.1*np.identity(3)
+        Q = 0.2*np.identity(3)
+        R = 0.2*np.identity(3)
         self.K, _, _ = dlqr(np.identity(3),np.identity(3),Q,R)
 
         # Jacobian
@@ -72,19 +72,14 @@ class LQRController(Node):
 
         twist_msg.linear.x = u[0]
         twist_msg.linear.y = u[1]
+        # Take shortest rotation
+        if ((theta > np.pi/2 + 0.01 and theta <= np.pi) or (theta < -np.pi/2 - 0.01 and theta >= -np.pi)) and (np.abs(self.q_goal.squeeze()[2]) - np.abs(theta) < np.pi) and (np.sign(self.q_goal.squeeze()[2]) != np.sign(theta)):
+            u[2] = -u[2]
+
         twist_msg.angular.z = u[2]
 
         self._cmd_vel_publisher.publish(twist_msg)
         
-    # def accept_nav_to_pose_callback(self, goal_handle):
-
-    #     if self.goal_handle:
-            
-    #         self.get_logger().info('New goal received, aborting previous goal')
-    #         self.goal_handle.abort()
-    #         self.get_logger().info(str(self.goal_handle.status))
-
-    #     goal_handle.execute(self.nav_to_pose_callback)
 
     async def nav_to_pose_callback(self, goal_handle):
 
@@ -100,6 +95,9 @@ class LQRController(Node):
         x_goal = goal_handle.request.pose.x
         y_goal = goal_handle.request.pose.y
         theta_goal = goal_handle.request.pose.theta
+
+        # Normalize goal angle
+        theta_goal = ((theta_goal + np.pi)%(2*np.pi)) - np.pi
 
         self.q_goal = np.array([[x_goal, y_goal, theta_goal]]).T
 
