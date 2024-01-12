@@ -60,7 +60,18 @@ class LQRController(Node):
         theta = r.as_rotvec()[-1]
         self.q = np.array([[pose.position.x, pose.position.y, theta]]).T
 
-        v = np.dot(self.K, (self.q_goal - self.q))
+        pose_error = np.zeros((3,1))
+        pose_error[:-1] = self.q_goal[:-1] - self.q[:-1]
+
+        # Shortest rotation
+        pose_error[-1] = self.q_goal.squeeze()[2] - theta
+        if pose_error[-1] > np.pi:
+            pose_error[-1] += -2*np.pi
+        elif pose_error[-1] < -np.pi:
+            pose_error[-1] += 2*np.pi
+
+        # pose_error = (self.q_goal - self.q)
+        v = np.dot(self.K, pose_error)
 
         rot_m = np.array([[np.cos(theta), -np.sin(theta), 0],
                           [np.sin(theta), np.cos(theta), 0],
@@ -72,10 +83,6 @@ class LQRController(Node):
 
         twist_msg.linear.x = u[0]
         twist_msg.linear.y = u[1]
-        # Take shortest rotation
-        if ((theta > np.pi/2 + 0.01 and theta <= np.pi) or (theta < -np.pi/2 - 0.01 and theta >= -np.pi)) and (np.abs(self.q_goal.squeeze()[2]) - np.abs(theta) < np.pi) and (np.sign(self.q_goal.squeeze()[2]) != np.sign(theta)):
-            u[2] = -u[2]
-
         twist_msg.angular.z = u[2]
 
         self._cmd_vel_publisher.publish(twist_msg)
