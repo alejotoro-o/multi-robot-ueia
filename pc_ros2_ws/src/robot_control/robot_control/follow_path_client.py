@@ -86,9 +86,24 @@ def control_loop(node):
 
     while 1:
 
-        goal = input()
+        command = input()
 
-        if goal == '1':
+        if command == 't':
+
+            print("Num waypoints:")
+            num_waypoints = input()
+            goal = []
+
+            for i in range(int(num_waypoints)):
+
+                print("Waypoint %s pose:" % i)
+                pose_str = input().split(' ')
+                waypoint = [float(v) for v in pose_str]
+
+                goal.append(waypoint)
+
+        elif command == '1':
+            
             goal = [[0, -0.5, 0],
                     [0.5, -0.5, 1.57],
                     [0.5, 0.5, 3.14],
@@ -96,10 +111,11 @@ def control_loop(node):
                     [-0.5, -0.5, 0],
                     [0, -0.5, 0],
                     [0, 0, 0]]
-        elif goal == 'c':
+            
+        elif command == 'c':
             node.cancel_goal()
             continue
-        elif goal == 'q':
+        elif command == 'q':
             break
 
         node.send_goal(goal)
