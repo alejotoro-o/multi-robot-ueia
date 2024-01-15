@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<robot name="robot2" xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<webots>
+        <plugin type="multi_robot_sim.multi_robot_driver.MultiRobotDriver"/>
+    </webots>
+
+	<link name="base_link">
+		<visual>
+		<geometry>
+			<box size="0.238 0.1386 0.1345"/>
+		</geometry>
+		</visual>
+		<collision>
+		<geometry>
+			<box size="0.238 0.1386 0.1345"/>
+		</geometry>
+		</collision>
+	</link>
+	<joint name="motor2" type="continuous">
+		<parent link="base_link"/>
+		<child link="wheel2"/>
+		<axis xyz="0 0 -1"/>
+		<limit effort="10" velocity="20"/>
+		<origin xyz="0.08 0 -0.055" rpy="1.57 -0.000151 0"/>
+	</joint>
+	<link name="wheel2">
+		<visual>
+		<origin xyz="0 0 0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</visual>
+		<collision>
+		<origin xyz="0 0 0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</collision>
+	</link>
+	<joint name="motor1" type="continuous">
+		<parent link="base_link"/>
+		<child link="wheel1"/>
+		<axis xyz="0 0 -1"/>
+		<limit effort="10" velocity="20"/>
+		<origin xyz="0.08 0 -0.055" rpy="1.57 0.000148 0"/>
+	</joint>
+	<link name="wheel1">
+		<visual>
+		<origin xyz="0 0 -0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</visual>
+		<collision>
+		<origin xyz="0 0 -0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</collision>
+	</link>
+	<joint name="motor4" type="continuous">
+		<parent link="base_link"/>
+		<child link="wheel4"/>
+		<axis xyz="0 0 -1"/>
+		<limit effort="10" velocity="20"/>
+		<origin xyz="-0.08 0 -0.055" rpy="1.57 -0.000157 0"/>
+	</joint>
+	<link name="wheel4">
+		<visual>
+		<origin xyz="0 0 0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</visual>
+		<collision>
+		<origin xyz="0 0 0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</collision>
+	</link>
+	<joint name="motor3" type="continuous">
+		<parent link="base_link"/>
+		<child link="wheel3"/>
+		<axis xyz="0 0 -1"/>
+		<limit effort="10" velocity="20"/>
+		<origin xyz="-0.08 0 -0.055" rpy="1.57 0.000157 0"/>
+	</joint>
+	<link name="wheel3">
+		<visual>
+		<origin xyz="0 0 -0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</visual>
+		<collision>
+		<origin xyz="0 0 -0.084" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.0325" length="0.0304"/>
+		</geometry>
+		</collision>
+	</link>
+	<link name="lidar">
+		<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.03025" length="0.057"/>
+		</geometry>
+		</visual>
+		<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<cylinder radius="0.03025" length="0.057"/>
+		</geometry>
+		</collision>
+	</link>
+	<joint name="base_link_lidar_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="lidar"/>
+		<origin xyz="-0.04 0 0.096" rpy="0 0 0"/>
+	</joint>
+</robot>
