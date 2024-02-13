@@ -12,11 +12,11 @@ class FollowTrajectoryServer(Node):
 
     def __init__(self):
 
-        super().__init__('follow_path_server')
+        super().__init__('follow_trajectory_server')
 
-        self._follow_path_server = ActionServer(self, FollowTrajectory,
-                                                      'follow_path',
-                                                      self.follow_path_callback,
+        self._follow_trajectory_server = ActionServer(self, FollowTrajectory,
+                                                      'follow_trajectory',
+                                                      self.follow_trajectory_callback,
                                                       cancel_callback=self.cancel_callback)
         self._nav_to_pose_client = ActionClient(self, NavToPose, 'nav_to_pose')
 
@@ -26,10 +26,10 @@ class FollowTrajectoryServer(Node):
         self.goal_result = FollowTrajectory.Result()
         
     ##################################
-    ## FOLLOW PATH SERVER CALLBACKS ##
+    ## FOLLOW trajectory SERVER CALLBACKS ##
     ##################################
         
-    async def follow_path_callback(self, goal_handle):
+    async def follow_trajectory_callback(self, goal_handle):
 
         self.get_logger().info('Executing goal...')
 
@@ -53,13 +53,13 @@ class FollowTrajectoryServer(Node):
 
                 self.follow_trajectory_goal_handle.canceled()
                 self.follow_trajectory_goal_handle = None
-                self.goal_result.result = "Path canceled"
+                self.goal_result.result = "Trajectory canceled"
                 self.get_logger().info(self.goal_result.result)
                 return self.goal_result
 
             if self.follow_trajectory_goal_handle != goal_handle:
 
-                self.goal_result.result = "New path received, aborting previous path"
+                self.goal_result.result = "New trajectory received, aborting previous trajectory"
                 self.get_logger().info(self.goal_result.result)
                 return self.goal_result
             
@@ -69,7 +69,7 @@ class FollowTrajectoryServer(Node):
 
         self.follow_trajectory_goal_handle.succeed()
 
-        self.goal_result.result = "Path complete"
+        self.goal_result.result = "Trajectory complete"
         self.get_logger().info(self.goal_result.result)
 
         self.follow_trajectory_goal_handle = None

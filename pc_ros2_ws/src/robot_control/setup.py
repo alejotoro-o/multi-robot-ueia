@@ -24,7 +24,10 @@ setup(
             'nav_to_pose_client = robot_control.robot_control_client:main',
 
             'follow_path_server = robot_control.follow_path:main',
-            'follow_path_client = robot_control.follow_path_client:main'
+            'follow_path_client = robot_control.follow_path_client:main',
+
+            'follow_trajectory_server = robot_control.follow_trajectory:main',
+            'follow_trajectory_client = robot_control.follow_trajectory_client:main'
         ],
     },
 )

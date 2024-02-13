@@ -20,6 +20,7 @@ class LQRController(Node):
         super().__init__('lqr_controller')
 
         # Controller parameters
+        self.declare_parameter("initial_pose", [0.0,0.0,0.0])
         # self.declare_parameter('wheel_radius', 0.0325)
         # self.declare_parameter('lx', 0.0845)
         # self.declare_parameter('ly', 0.08)
@@ -51,7 +52,8 @@ class LQRController(Node):
         self.goal_result = NavToPose.Result()
         self.feedback_msg = NavToPose.Feedback()
 
-        self.q_goal = np.array([[0,0,0]]).T
+        self.q_goal = np.array(self.get_parameter('initial_pose').get_parameter_value().double_array_value).reshape((3,1))
+        #self.q_goal = np.array([[0,0,0]]).T
 
     def _control_callback(self, pose):
 
