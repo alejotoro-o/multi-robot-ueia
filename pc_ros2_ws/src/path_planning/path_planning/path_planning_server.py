@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 
 import cv2
-from a_star import *
+from .a_star import astar
 import numpy as np
 
 from interfaces.msg import Pose2D
@@ -14,7 +14,7 @@ class PathPlanningServer(Node):
 
         super().__init__('path_planning_server')
 
-        self.declare_parameter("map_path")
+        self.declare_parameter("map_path", "")
 
         self.path_planning_srv = self.create_service(PathPlanning, "path_planning", self.plan_path_callback)
 
@@ -25,11 +25,9 @@ class PathPlanningServer(Node):
         map = cv2.cvtColor(map, cv2.COLOR_BGR2GRAY)
         map = cv2.threshold(map, 128, 1, cv2.THRESH_BINARY_INV)[1]
 
-        start = (request.start.x, request.start.y)
-        end = (request.end.x, request.end.y)
-
-        ## CONVERTIR COORDENADAS EN COORDENADAS DEL MAPA DISCRETO
-
+        start = (round(request.start.x*10), round(request.start.y*10))
+        end = (round(request.end.x*10), round(request.end.y*10))
+        
         path = astar(map, start, end)
 
         theta_error = request.end.theta - request.start.theta
@@ -45,12 +43,13 @@ class PathPlanningServer(Node):
         for i, p in enumerate(path):
 
             point = Pose2D()
-            point.x = p[0]
-            point.y = p[1]
+            point.x = p[0]*0.1
+            point.y = p[1]*0.1
             point.theta = request.end.theta - orient_error[i]
+            point.theta = ((point.theta + np.pi)%(2*np.pi)) - np.pi
 
             response.path.append(point)
-
+        
         return response
 
 
