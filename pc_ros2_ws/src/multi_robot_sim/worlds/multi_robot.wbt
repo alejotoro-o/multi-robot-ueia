@@ -33,14 +33,14 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position 0.007469531102679542 3.1197158812604004e-05 6.923097790149577
+  position 1.0273500015196246 -0.06871661490729891 12.037773944726604
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  floorSize 8 6
+  floorSize 6 4
   floorAppearance Parquetry {
     type "light strip"
   }
@@ -48,7 +48,7 @@ RectangleArena {
   wallHeight 1
 }
 DEF robot1 Robot {
-  translation 0 -0.5 0.086
+  translation -2.5 -0.5 0.086
   children [
     Lidar {
       translation -0.04 0 0.096
@@ -232,7 +232,7 @@ DEF robot1 Robot {
   supervisor TRUE
 }
 DEF robot2 Robot {
-  translation 0 0.5 0.086
+  translation -2.5 0.5 0.086
   children [
     Lidar {
       translation -0.04 0 0.096
@@ -414,4 +414,39 @@ DEF robot2 Robot {
   rotationStep 0.01
   controller "<extern>"
   supervisor TRUE
+}
+DEF wall_obs Solid {
+  translation -1.5 0 0.24
+  children [
+    DEF wall_obs Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 2 0.5
+      }
+    }
+  ]
+  boundingObject USE wall_obs
+  physics Physics {
+  }
+}
+DEF box_obs Solid {
+  translation 1 0 0.25
+  children [
+    DEF box_obs Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        metalness 0
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE box_obs
+  physics Physics {
+  }
 }
