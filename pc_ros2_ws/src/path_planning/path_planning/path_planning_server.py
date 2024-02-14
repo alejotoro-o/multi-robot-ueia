@@ -15,7 +15,7 @@ class PathPlanningServer(Node):
         super().__init__('path_planning_server')
 
         self.declare_parameter("map_path", "")
-
+        
         self.path_planning_srv = self.create_service(PathPlanning, "path_planning", self.plan_path_callback)
 
     def plan_path_callback(self, request, response):
@@ -25,8 +25,12 @@ class PathPlanningServer(Node):
         map = cv2.cvtColor(map, cv2.COLOR_BGR2GRAY)
         map = cv2.threshold(map, 128, 1, cv2.THRESH_BINARY_INV)[1]
 
-        start = (round(request.start.x*10), round(request.start.y*10))
-        end = (round(request.end.x*10), round(request.end.y*10))
+        start = (int(map.shape[0]/2 - round(request.start.x*10)), int(map.shape[1]/2 - round(request.start.y*10)))
+        end = (int(map.shape[0]/2 - round(request.end.x*10)), int(map.shape[1]/2 - round(request.end.y*10)))
+
+        if map[end[0]][end[1]] == 1:
+            response.path = []
+            return response
         
         path = astar(map, start, end)
 
@@ -43,8 +47,8 @@ class PathPlanningServer(Node):
         for i, p in enumerate(path):
 
             point = Pose2D()
-            point.x = p[0]*0.1
-            point.y = p[1]*0.1
+            point.x = (map.shape[0]/2 - p[0])*0.1
+            point.y = (map.shape[1]/2 - p[1])*0.1
             point.theta = request.end.theta - orient_error[i]
             point.theta = ((point.theta + np.pi)%(2*np.pi)) - np.pi
 

@@ -57,6 +57,8 @@ class FollowTrajectoryActionClient(Node):
 
         start = (self.q.position.x, self.q.position.y, q_theta)
         end = (x, y, theta)
+
+        self.path_planning_client.wait_for_service()
         
         goal_msg.path  = self.get_path(start, end)
         goal_msg.time = time
@@ -133,7 +135,6 @@ def control_loop(node):
     thread.start()
 
     while 1:
-
         
         goal = input()
 

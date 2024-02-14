@@ -24,12 +24,14 @@ class LQRController(Node):
         # self.declare_parameter('wheel_radius', 0.0325)
         # self.declare_parameter('lx', 0.0845)
         # self.declare_parameter('ly', 0.08)
-        # self.declare_parameter('Q', 0.1*[1., 0., 0., 0., 1., 0., 0., 0., 1.])
-        # self.declare_parameter('R', 0.1*[1., 0., 0., 0., 1., 0., 0., 0., 1.])
+        self.declare_parameter('Q_factor', 0.1)
+        self.declare_parameter('R_factor', 0.1)
 
         # Controller gains
-        Q = 0.2*np.identity(3)
-        R = 0.2*np.identity(3)
+        Q_factor = self.get_parameter('Q_factor').get_parameter_value().double_value
+        R_factor = self.get_parameter('R_factor').get_parameter_value().double_value
+        Q = Q_factor*np.identity(3)
+        R = R_factor*np.identity(3)
         self.K, _, _ = dlqr(np.identity(3),np.identity(3),Q,R)
 
         # Jacobian

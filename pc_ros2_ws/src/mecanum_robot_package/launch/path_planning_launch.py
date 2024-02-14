@@ -69,7 +69,7 @@ def generate_launch_description():
         package='robot_control',
         executable='lqr_controller',
         parameters=[
-            {'initial_pose': [0.5,2,-1.57]}
+            {'initial_pose': [0,2.5,-1.57]}
         ]
     )
 
