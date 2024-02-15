@@ -69,7 +69,9 @@ def generate_launch_description():
         package='robot_control',
         executable='lqr_controller',
         parameters=[
-            {'initial_pose': [-2.5,-0.5,0]}
+            {'initial_pose': [-2.5,-0.5,0]},
+            {'Q_factor': 0.1},
+            {'R_factor': 0.001},
         ],
         namespace=robot1_namespace
     )
@@ -78,7 +80,9 @@ def generate_launch_description():
         package='robot_control',
         executable='lqr_controller',
         parameters=[
-            {'initial_pose': [-2.5,0.5,0]}
+            {'initial_pose': [-2.5,0.5,0]},
+            {'Q_factor': 0.1},
+            {'R_factor': 0.001},
         ],
         namespace=robot2_namespace
     )

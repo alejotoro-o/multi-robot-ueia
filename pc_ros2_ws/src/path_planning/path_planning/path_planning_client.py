@@ -64,7 +64,7 @@ class PathPlanningClient(Node):
         map = cv2.threshold(map, 128, 1, cv2.THRESH_BINARY_INV)[1]
 
         plt.imshow(map, cmap='binary')
-        plt.plot(map.shape[1]/2 + path[:,1]*10, map.shape[0]/2 + path[:,0]*10)
+        plt.plot(map.shape[1]/2 - path[:,1]*10, map.shape[0]/2 - path[:,0]*10)
         plt.grid()
         plt.show()
 
