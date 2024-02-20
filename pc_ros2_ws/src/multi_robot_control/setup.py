@@ -1,15 +1,14 @@
 from setuptools import find_packages, setup
 
-package_name = 'path_planning'
+package_name = 'multi_robot_control'
 
 setup(
     name=package_name,
     version='0.0.0',
     packages=find_packages(exclude=['test']),
     data_files=[
-        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
-        ('share/' + package_name + '/resource', ['resource/test_map2.jpg']),
-        ('share/' + package_name + '/resource', ['resource/multi_robot_map1.jpg']),
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
     install_requires=['setuptools'],
@@ -21,10 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "path_planning_server = path_planning.path_planning_server:main",
-            "path_planning_client = path_planning.path_planning_client:main",
-
-            "obs_path_planning_server = path_planning.obs_path_planning:main",
+            "smr_follow_trajectory_client = multi_robot_control.smr_follow_trajectory_client:main",
         ],
     },
 )

@@ -15,7 +15,9 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Pose2D.msg"
+  "msg/Obstacle.msg"
   "srv/PathPlanning.srv"
+  "srv/ObsPathPlanning.srv"
   "action/NavToPose.action"
   "action/FollowPath.action"
   "action/FollowTrajectory.action"

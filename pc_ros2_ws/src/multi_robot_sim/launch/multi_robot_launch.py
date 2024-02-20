@@ -7,10 +7,7 @@ from webots_ros2_driver.webots_launcher import WebotsLauncher
 from webots_ros2_driver.webots_controller import WebotsController
 from launch_ros.actions import Node
 from launch.substitutions.path_join_substitution import PathJoinSubstitution
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.substitutions import FindPackageShare
+from launch.actions import DeclareLaunchArgument
 
 
 def generate_launch_description():
@@ -100,13 +97,21 @@ def generate_launch_description():
     )
 
     ## Path planning
+    # path_planning_server = Node(
+    #     package="path_planning",
+    #     executable="path_planning_server",
+    #     parameters=[
+    #         {"map_path": map_path}
+    #     ],
+    #     namespace=robot1_namespace
+    # )
+
     path_planning_server = Node(
         package="path_planning",
-        executable="path_planning_server",
+        executable="obs_path_planning_server",
         parameters=[
             {"map_path": map_path}
         ],
-        namespace=robot1_namespace
     )
 
     return LaunchDescription([
