@@ -45,7 +45,7 @@ class ObsPathPlanningServer(Node):
                 obs_end_x = map.shape[1] - 1
 
             map[obs_start_x:obs_end_x,obs_start_y:obs_end_y] = 1
-
+        
         start = (int(map.shape[0]/2 - round(request.start.x*10)), int(map.shape[1]/2 - round(request.start.y*10)))
         end = (int(map.shape[0]/2 - round(request.end.x*10)), int(map.shape[1]/2 - round(request.end.y*10)))
 
@@ -54,7 +54,7 @@ class ObsPathPlanningServer(Node):
             return response
         
         path = astar(map, start, end)
-
+        
         theta_error = request.end.theta - request.start.theta
         if theta_error > np.pi:
             theta_error += -2*np.pi
@@ -74,7 +74,7 @@ class ObsPathPlanningServer(Node):
             point.theta = ((point.theta + np.pi)%(2*np.pi)) - np.pi
 
             response.path.append(point)
-        
+
         return response
 
 

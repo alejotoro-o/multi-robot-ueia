@@ -1,0 +1,5 @@
+Pose2D object_pose
+float32 radius
+---
+string result
+---

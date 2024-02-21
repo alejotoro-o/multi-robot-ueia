@@ -88,18 +88,18 @@ class FollowTrajectoryServer(Node):
     ## NAV TO POSE CLIENT CALLBACKS ##
     ##################################
 
-    def send_goal(self, x, y, theta):
+    # def send_goal(self, x, y, theta):
 
-        goal_msg = NavToPose.Goal()
-        goal_msg.pose.x = x
-        goal_msg.pose.y = y
-        goal_msg.pose.theta = theta
+    #     goal_msg = NavToPose.Goal()
+    #     goal_msg.pose.x = x
+    #     goal_msg.pose.y = y
+    #     goal_msg.pose.theta = theta
 
-        self._nav_to_pose_client.wait_for_server()
+    #     self._nav_to_pose_client.wait_for_server()
 
-        self._send_goal_future = self._nav_to_pose_client.send_goal_async(goal_msg)
+    #     self._send_goal_future = self._nav_to_pose_client.send_goal_async(goal_msg)
 
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
+    #     self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
 

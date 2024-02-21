@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             "smr_follow_trajectory_client = multi_robot_control.smr_follow_trajectory_client:main",
+            "approach_object_server = multi_robot_control.approach_object_server:main",
         ],
     },
 )

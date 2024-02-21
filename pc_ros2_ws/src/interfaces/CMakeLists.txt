@@ -21,6 +21,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/NavToPose.action"
   "action/FollowPath.action"
   "action/FollowTrajectory.action"
+  "action/ApproachObject.action"
 )
 
 if(BUILD_TESTING)
