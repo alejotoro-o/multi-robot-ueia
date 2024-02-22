@@ -35,6 +35,13 @@ class FollowTrajectoryServer(Node):
 
         self.follow_trajectory_goal_handle = goal_handle
 
+        if len(self.follow_trajectory_goal_handle.request.path) == 0:
+            self.follow_trajectory_goal_handle.canceled()
+            self.follow_trajectory_goal_handle = None
+            self.goal_result.result = "Imposible to reach goal"
+            self.get_logger().info(self.goal_result.result)
+            return self.goal_result
+
         time_to_waypoint = self.follow_trajectory_goal_handle.request.time/len(self.follow_trajectory_goal_handle.request.path)
 
         ################

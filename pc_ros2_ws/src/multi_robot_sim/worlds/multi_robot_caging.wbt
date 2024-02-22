@@ -61,6 +61,7 @@ DEF robot1 Robot {
           device [
             DEF r_grip_motor RotationalMotor {
               name "r_grip_motor"
+              maxTorque 1
             }
           ]
           endPoint DEF r_grip Solid {
@@ -91,6 +92,7 @@ DEF robot1 Robot {
           device [
             DEF l_grip_motor RotationalMotor {
               name "l_grip_motor"
+              maxTorque 1
             }
           ]
           endPoint DEF l_grip Solid {
@@ -302,6 +304,7 @@ DEF robot2 Robot {
           device [
             DEF r_grip_motor RotationalMotor {
               name "r_grip_motor"
+              maxTorque 1
             }
           ]
           endPoint DEF r_grip Solid {
@@ -332,6 +335,7 @@ DEF robot2 Robot {
           device [
             DEF l_grip_motor RotationalMotor {
               name "l_grip_motor"
+              maxTorque 1
             }
           ]
           endPoint DEF l_grip Solid {

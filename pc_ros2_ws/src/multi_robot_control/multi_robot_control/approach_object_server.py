@@ -69,12 +69,14 @@ class ApproachObjectServer(Node):
     
     def get_q_goals(self, object_pose, object_radius):
 
-        q1_x = object_pose.x + object_radius*np.sin(object_pose.theta)
-        q1_y = object_pose.y - object_radius*np.cos(object_pose.theta)
+        distance_to_object = 2*object_radius + 0.15
+
+        q1_x = object_pose.x + distance_to_object*np.sin(object_pose.theta)
+        q1_y = object_pose.y - distance_to_object*np.cos(object_pose.theta)
         q1_theta = np.pi/2 + object_pose.theta
 
-        q2_x = object_pose.x - object_radius*np.sin(object_pose.theta)
-        q2_y = object_pose.y + object_radius*np.cos(object_pose.theta)
+        q2_x = object_pose.x - distance_to_object*np.sin(object_pose.theta)
+        q2_y = object_pose.y + distance_to_object*np.cos(object_pose.theta)
         q2_theta = object_pose.theta - np.pi/2 
 
         return (q1_x, q1_y, q1_theta), (q2_x, q2_y, q2_theta)
