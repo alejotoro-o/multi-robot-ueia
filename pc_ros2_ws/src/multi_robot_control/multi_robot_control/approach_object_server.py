@@ -16,7 +16,7 @@ class ApproachObjectServer(Node):
 
     def __init__(self):
 
-        super().__init__('smr_follow_trajectory_client')
+        super().__init__('approach_object_server')
 
         self.pose_subscription = self.create_subscription(Pose, 'robot1/pose', self.get_robot1_pose_callback, 1)
         self.pose_subscription = self.create_subscription(Pose, 'robot2/pose', self.get_robot2_pose_callback, 1)
@@ -69,12 +69,12 @@ class ApproachObjectServer(Node):
     
     def get_q_goals(self, object_pose, object_radius):
 
-        q1_x = object_pose.x + 2*object_radius*np.sin(object_pose.theta)
-        q1_y = object_pose.y - 2*object_radius*np.cos(object_pose.theta)
+        q1_x = object_pose.x + object_radius*np.sin(object_pose.theta)
+        q1_y = object_pose.y - object_radius*np.cos(object_pose.theta)
         q1_theta = np.pi/2 + object_pose.theta
 
-        q2_x = object_pose.x - 2*object_radius*np.sin(object_pose.theta)
-        q2_y = object_pose.y + 2*object_radius*np.cos(object_pose.theta)
+        q2_x = object_pose.x - object_radius*np.sin(object_pose.theta)
+        q2_y = object_pose.y + object_radius*np.cos(object_pose.theta)
         q2_theta = object_pose.theta - np.pi/2 
 
         return (q1_x, q1_y, q1_theta), (q2_x, q2_y, q2_theta)

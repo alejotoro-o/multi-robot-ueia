@@ -16,8 +16,8 @@ def generate_launch_description():
     robot2_namespace = "robot2"
 
     package_dir = get_package_share_directory('multi_robot_sim')
-    robot1_description_path = os.path.join(package_dir, 'resource', 'robot1.urdf')
-    robot2_description_path = os.path.join(package_dir, 'resource', 'robot2.urdf')
+    robot1_description_path = os.path.join(package_dir, 'resource', 'robot1_gripper.urdf')
+    robot2_description_path = os.path.join(package_dir, 'resource', 'robot2_gripper.urdf')
 
     map_path = os.path.join(package_dir, 'resource', 'caging_map.jpg')
 
@@ -96,6 +96,18 @@ def generate_launch_description():
         namespace=robot2_namespace
     )
 
+    robot1_control_gripper_server = Node(
+        package="multi_robot_sim",
+        executable="control_gripper_server",
+        namespace=robot1_namespace,
+    )
+
+    robot2_control_gripper_server = Node(
+        package="multi_robot_sim",
+        executable="control_gripper_server",
+        namespace=robot2_namespace,
+    )
+
     ## Path planning
     path_planning_server = Node(
         package="path_planning",
@@ -127,6 +139,9 @@ def generate_launch_description():
 
         robot1_driver,
         robot2_driver,
+
+        robot1_control_gripper_server,
+        robot2_control_gripper_server,
         
         robot1_joint_state_publisher,
         robot2_joint_state_publisher,

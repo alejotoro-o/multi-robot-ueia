@@ -11,6 +11,8 @@ data_files.append(('share/' + package_name + '/worlds', ['worlds/multi_robot_cag
 
 data_files.append(('share/' + package_name + '/resource', ['resource/robot1.urdf']))
 data_files.append(('share/' + package_name + '/resource', ['resource/robot2.urdf']))
+data_files.append(('share/' + package_name + '/resource', ['resource/robot1_gripper.urdf']))
+data_files.append(('share/' + package_name + '/resource', ['resource/robot2_gripper.urdf']))
 
 data_files.append(('share/' + package_name + '/resource', ['resource/multi_robot_map1.jpg']))
 data_files.append(('share/' + package_name + '/resource', ['resource/caging_map.jpg']))
@@ -31,6 +33,9 @@ setup(
     entry_points={
         'console_scripts': [
             'multi_robot_driver = multi_robot_sim.multi_robot_driver:main',
+            'multi_robot_driver2 = multi_robot_sim.multi_robot_driver2:main',
+
+            'control_gripper_server = multi_robot_sim.control_gripper_node:main',
         ],
     },
 )

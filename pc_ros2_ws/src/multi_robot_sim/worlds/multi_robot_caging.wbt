@@ -33,7 +33,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position 0.6291502091532387 -0.03612637317284814 12.307100555158097
+  position 2.7209573008745392e-05 2.7209649950855387e-05 11.73303639122509
 }
 TexturedBackground {
 }
@@ -50,6 +50,83 @@ RectangleArena {
 DEF robot1 Robot {
   translation -2.5 -0.5 0.086
   children [
+    DEF gripper Solid {
+      translation 0.1154 0 -0.02
+      children [
+        DEF r_grip HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0.04 -0.03 0
+          }
+          device [
+            DEF r_grip_motor RotationalMotor {
+              name "r_grip_motor"
+            }
+          ]
+          endPoint DEF r_grip Solid {
+            translation 0.09 -0.03 0.03
+            children [
+              DEF l_grip Shape {
+                appearance PBRAppearance {
+                  metalness 0.5
+                }
+                geometry Box {
+                  size 0.12 0.02 0.02
+                }
+              }
+            ]
+            name "solid(2)"
+            boundingObject USE l_grip
+            physics Physics {
+              density -1
+              mass 0.047999999999999994
+            }
+          }
+        }
+        DEF l_grip HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0.04 0.03 0
+          }
+          device [
+            DEF l_grip_motor RotationalMotor {
+              name "l_grip_motor"
+            }
+          ]
+          endPoint DEF l_grip Solid {
+            translation 0.09 0.03 0.03
+            children [
+              DEF l_grip Shape {
+                appearance PBRAppearance {
+                  metalness 0.5
+                }
+                geometry Box {
+                  size 0.12 0.02 0.02
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE l_grip
+            physics Physics {
+              density -1
+              mass 0.047999999999999994
+            }
+          }
+        }
+        DEF gripper_base Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0.5
+          }
+          geometry Box {
+            size 0.1 0.1 0.04
+          }
+        }
+      ]
+      boundingObject USE gripper_base
+      physics Physics {
+      }
+    }
     DEF Body Shape {
       appearance PBRAppearance {
         baseColor 1 0 0
@@ -214,6 +291,83 @@ DEF robot1 Robot {
 DEF robot2 Robot {
   translation -2.5 0.5 0.086
   children [
+    DEF gripper Solid {
+      translation 0.1154 0 -0.02
+      children [
+        DEF r_grip HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0.04 -0.03 0
+          }
+          device [
+            DEF r_grip_motor RotationalMotor {
+              name "r_grip_motor"
+            }
+          ]
+          endPoint DEF r_grip Solid {
+            translation 0.09 -0.03 0.03
+            children [
+              DEF l_grip Shape {
+                appearance PBRAppearance {
+                  metalness 0.5
+                }
+                geometry Box {
+                  size 0.12 0.02 0.02
+                }
+              }
+            ]
+            name "solid(2)"
+            boundingObject USE l_grip
+            physics Physics {
+              density -1
+              mass 0.047999999999999994
+            }
+          }
+        }
+        DEF l_grip HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0.04 0.03 0
+          }
+          device [
+            DEF l_grip_motor RotationalMotor {
+              name "l_grip_motor"
+            }
+          ]
+          endPoint DEF l_grip Solid {
+            translation 0.09 0.03 0.03
+            children [
+              DEF l_grip Shape {
+                appearance PBRAppearance {
+                  metalness 0.5
+                }
+                geometry Box {
+                  size 0.12 0.02 0.02
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE l_grip
+            physics Physics {
+              density -1
+              mass 0.047999999999999994
+            }
+          }
+        }
+        DEF gripper_base Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            metalness 0.5
+          }
+          geometry Box {
+            size 0.1 0.1 0.04
+          }
+        }
+      ]
+      boundingObject USE gripper_base
+      physics Physics {
+      }
+    }
     DEF Body Shape {
       appearance PBRAppearance {
         baseColor 0 0 1
