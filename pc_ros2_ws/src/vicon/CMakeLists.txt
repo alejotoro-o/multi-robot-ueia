@@ -17,13 +17,17 @@ find_package(geometry_msgs REQUIRED)
 find_library(vicon_lib NAMES ViconDataStreamSDK_CPP PATHS ${CMAKE_SOURCE_DIR}/libs/Vicon_DataStreamSDK_Linux64 REQUIRED NO_DEFAULT_PATH)
 link_directories(libs/Vicon_DataStreamSDK_Linux64)
 add_executable(pose_publisher src/pose_publisher.cpp)
+add_executable(multi_robot_pose_publisher src/multi_robot_pose_publisher.cpp)
 
 target_link_libraries(pose_publisher ViconDataStreamSDK_CPP)
+target_link_libraries(multi_robot_pose_publisher ViconDataStreamSDK_CPP)
 
 ament_target_dependencies(pose_publisher rclcpp std_msgs geometry_msgs)
+ament_target_dependencies(multi_robot_pose_publisher rclcpp std_msgs geometry_msgs)
 
 install(TARGETS
   pose_publisher
+  multi_robot_pose_publisher
   DESTINATION lib/${PROJECT_NAME})
 
 install(

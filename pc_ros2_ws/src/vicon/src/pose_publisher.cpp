@@ -27,8 +27,8 @@ class PosePublisher : public rclcpp::Node
     {   
 
         // Node Config
-        publisher = this->create_publisher<geometry_msgs::msg::Pose>("rosmaster1/pose", 10);
-        timer = this->create_wall_timer(1000ms, std::bind(&PosePublisher::timer_callback, this));
+        publisher = this->create_publisher<geometry_msgs::msg::Pose>("robot1/pose", 10);
+        timer = this->create_wall_timer(10ms, std::bind(&PosePublisher::timer_callback, this));
 
         // Vicon DataStream Version
         Output_GetVersion output = vicon_client.GetVersion();
