@@ -1,0 +1,11 @@
+[Unit]
+Description=RGB Cooling HAT Service
+Before=motd-news.service
+
+[Service]
+Type=oneshot
+ExecStart=sh /home/pi/software/RGB_Cooling_HAT/start.sh
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
