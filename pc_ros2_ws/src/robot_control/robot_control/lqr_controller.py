@@ -59,10 +59,14 @@ class LQRController(Node):
 
     def _control_callback(self, pose):
 
-        r = R.from_quat([pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w])
-       
-        theta = r.as_rotvec()[-1]
-        self.q = np.array([[pose.position.x, pose.position.y, theta]]).T
+        if pose.orientation.x == 0 and pose.orientation.y == 0 and pose.orientation.z == 0 and pose.orientation.w == 0:
+            theta = self.q[2,0]
+        else:
+            r = R.from_quat([pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w])
+            theta = r.as_rotvec()[-1]
+
+        if pose.position.z != 0:
+            self.q = np.array([[pose.position.x, pose.position.y, theta]]).T
 
         pose_error = np.zeros((3,1))
         pose_error[:-1] = self.q_goal[:-1] - self.q[:-1]

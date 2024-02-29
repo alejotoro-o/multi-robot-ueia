@@ -30,7 +30,7 @@ class MultiRobotPosePublisher : public rclcpp::Node
         // Node Config
         robot1_publisher = this->create_publisher<geometry_msgs::msg::Pose>("robot1/pose", 10);
         robot2_publisher = this->create_publisher<geometry_msgs::msg::Pose>("robot2/pose", 10);
-        timer = this->create_wall_timer(10ms, std::bind(&MultiRobotPosePublisher::timer_callback, this));
+        timer = this->create_wall_timer(100ms, std::bind(&MultiRobotPosePublisher::timer_callback, this));
 
         // Vicon DataStream Version
         Output_GetVersion output = vicon_client.GetVersion();
@@ -87,9 +87,9 @@ class MultiRobotPosePublisher : public rclcpp::Node
         // Set Pose Message
         geometry_msgs::msg::Pose pose_msg;
 
-        pose_msg.position.set__x(object1_translation.Translation[0]);
-        pose_msg.position.set__y(object1_translation.Translation[1]);
-        pose_msg.position.set__z(object1_translation.Translation[2]);
+        pose_msg.position.set__x(object1_translation.Translation[0]/1000);
+        pose_msg.position.set__y(object1_translation.Translation[1]/1000);
+        pose_msg.position.set__z(object1_translation.Translation[2]/1000);
 
         pose_msg.orientation.set__x(object1_rotation.Rotation[0]);
         pose_msg.orientation.set__y(object1_rotation.Rotation[1]);
@@ -99,9 +99,9 @@ class MultiRobotPosePublisher : public rclcpp::Node
         robot1_publisher->publish(pose_msg);
         //////////////////////
 
-        pose_msg.position.set__x(object2_translation.Translation[0]);
-        pose_msg.position.set__y(object2_translation.Translation[1]);
-        pose_msg.position.set__z(object2_translation.Translation[2]);
+        pose_msg.position.set__x(object2_translation.Translation[0]/1000);
+        pose_msg.position.set__y(object2_translation.Translation[1]/1000);
+        pose_msg.position.set__z(object2_translation.Translation[2]/1000);
 
         pose_msg.orientation.set__x(object2_rotation.Rotation[0]);
         pose_msg.orientation.set__y(object2_rotation.Rotation[1]);
