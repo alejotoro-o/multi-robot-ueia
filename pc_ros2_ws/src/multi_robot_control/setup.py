@@ -24,6 +24,8 @@ setup(
             "approach_object_server = multi_robot_control.approach_object_server:main",
 
             "caging_client = multi_robot_control.caging_client:main",
+
+            "leader_follower_controller = multi_robot_control.leader_follower_controller:main"
         ],
     },
 )

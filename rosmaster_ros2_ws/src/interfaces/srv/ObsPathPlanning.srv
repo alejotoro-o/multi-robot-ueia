@@ -1,0 +1,5 @@
+Pose2D start
+Pose2D end
+Obstacle[] obstacles
+---
+Pose2D[] path

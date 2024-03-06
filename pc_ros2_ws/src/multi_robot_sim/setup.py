@@ -5,9 +5,11 @@ data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
 data_files.append(('share/' + package_name + '/launch', ['launch/multi_robot_launch.py']))
 data_files.append(('share/' + package_name + '/launch', ['launch/caging_launch.py']))
+data_files.append(('share/' + package_name + '/launch', ['launch/leader_follower_launch.py']))
 
 data_files.append(('share/' + package_name + '/worlds', ['worlds/multi_robot.wbt']))
 data_files.append(('share/' + package_name + '/worlds', ['worlds/multi_robot_caging.wbt']))
+data_files.append(('share/' + package_name + '/worlds', ['worlds/leader_follower.wbt']))
 
 data_files.append(('share/' + package_name + '/resource', ['resource/robot1.urdf']))
 data_files.append(('share/' + package_name + '/resource', ['resource/robot2.urdf']))

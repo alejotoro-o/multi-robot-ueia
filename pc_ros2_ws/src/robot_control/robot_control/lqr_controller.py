@@ -65,7 +65,6 @@ class LQRController(Node):
             r = R.from_quat([pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w])
             theta = r.as_rotvec()[-1]
 
-        if pose.position.z != 0:
             self.q = np.array([[pose.position.x, pose.position.y, theta]]).T
 
         pose_error = np.zeros((3,1))

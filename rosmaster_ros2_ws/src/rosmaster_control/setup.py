@@ -21,7 +21,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robot_driver = rosmaster_control.robot_driver:main'
+            'robot_driver = rosmaster_control.robot_driver:main',
+            'robot_gripper_driver = rosmaster_control.robot_gripper_driver:main'
         ],
     },
 )

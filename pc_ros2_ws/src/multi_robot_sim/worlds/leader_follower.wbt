@@ -1,0 +1,417 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      material1 "InteriorWheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      frictionRotation -0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+    ContactProperties {
+      material1 "ExteriorWheelMat"
+      coulombFriction [
+        0, 2, 0
+      ]
+      frictionRotation 0.785398 0
+      bounce 0
+      forceDependentSlip [
+        10, 0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0.40724207887393915 -0.20159632148693482 13.116455011345145
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 6 4
+  floorAppearance Parquetry {
+    type "light strip"
+  }
+  wallThickness 0.02
+  wallHeight 1
+}
+DEF robot1 Robot {
+  translation 0 -0.5 0.086
+  children [
+    Lidar {
+      translation -0.04 0 0.096
+      children [
+        DEF Lidar Shape {
+          appearance PBRAppearance {
+          }
+          geometry Cylinder {
+            height 0.057
+            radius 0.03025
+          }
+        }
+      ]
+      boundingObject USE Lidar
+      physics Physics {
+      }
+      horizontalResolution 1024
+      fieldOfView 6.28
+      numberOfLayers 1
+      maxRange 6
+    }
+    DEF Body Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+      }
+      geometry Box {
+        size 0.238 0.1386 0.1345
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.00015663579982886386
+        axis 0 1 0
+        anchor -0.08 0 -0.055
+      }
+      device [
+        DEF encoder3 PositionSensor {
+          name "encoder3"
+        }
+        DEF motor3 RotationalMotor {
+          name "motor3"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel3 Solid {
+        translation -0.07999999999999986 0.08401599999999998 -0.05500000000000001
+        rotation 0.9999999938614182 7.838029108106743e-05 -7.831789959379711e-05 1.5700000061385777
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel3"
+        contactMaterial "InteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.00015657853473783408
+        axis 0 1 0
+        anchor -0.08 0 -0.055
+      }
+      device [
+        DEF encoder4 PositionSensor {
+          name "encoder4"
+        }
+        DEF motor4 RotationalMotor {
+          name "motor4"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel4 Solid {
+        translation -0.08 -0.08400000000000009 -0.05500000000000003
+        rotation 0.9999999938659058 -7.835163572595768e-05 7.828926704863373e-05 1.5700000061340917
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel4"
+        contactMaterial "ExteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.0001481496222256795
+        axis 0 1 0
+        anchor 0.08 0 -0.055
+      }
+      device [
+        DEF encoder1 PositionSensor {
+          name "encoder1"
+        }
+        DEF motor1 RotationalMotor {
+          name "motor1"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel1 Solid {
+        translation 0.0799999999999999 0.08400000000000006 -0.05500000000000001
+        rotation 0.9999999945085494 7.413382209748704e-05 -7.407481084154633e-05 1.5700000054914474
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel1"
+        contactMaterial "ExteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.0001509918891059744
+        axis 0 1 0
+        anchor 0.08 0 -0.055
+      }
+      device [
+        DEF encoder2 PositionSensor {
+          name "encoder2"
+        }
+        DEF motor2 RotationalMotor {
+          name "motor2"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel2 Solid {
+        translation 0.07999999999999993 -0.08399999999999995 -0.05499999999999997
+        rotation 0.99999999429582 -7.555608765917901e-05 7.549594426577792e-05 1.5700000057041767
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel2"
+        contactMaterial "InteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+  ]
+  name "robot1"
+  boundingObject USE Body
+  physics Physics {
+  }
+  rotationStep 0.01
+  controller "<extern>"
+  supervisor TRUE
+}
+DEF robot2 Robot {
+  translation 0 0.5 0.086
+  children [
+    Lidar {
+      translation -0.04 0 0.096
+      children [
+        DEF Lidar Shape {
+          appearance PBRAppearance {
+          }
+          geometry Cylinder {
+            height 0.057
+            radius 0.03025
+          }
+        }
+      ]
+      boundingObject USE Lidar
+      physics Physics {
+      }
+      horizontalResolution 1024
+      fieldOfView 6.28
+      numberOfLayers 1
+      maxRange 6
+    }
+    DEF Body Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+      }
+      geometry Box {
+        size 0.238 0.1386 0.1345
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.00015663579982886386
+        axis 0 1 0
+        anchor -0.08 0 -0.055
+      }
+      device [
+        DEF encoder3 PositionSensor {
+          name "encoder3"
+        }
+        DEF motor3 RotationalMotor {
+          name "motor3"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel3 Solid {
+        translation -0.07999999999999986 0.08401599999999998 -0.05500000000000001
+        rotation 0.9999999938614182 7.838029108106743e-05 -7.831789959379711e-05 1.5700000061385777
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel3"
+        contactMaterial "InteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.00015657853473783408
+        axis 0 1 0
+        anchor -0.08 0 -0.055
+      }
+      device [
+        DEF encoder4 PositionSensor {
+          name "encoder4"
+        }
+        DEF motor4 RotationalMotor {
+          name "motor4"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel4 Solid {
+        translation -0.08 -0.08400000000000009 -0.05500000000000003
+        rotation 0.9999999938659058 -7.835163572595768e-05 7.828926704863373e-05 1.5700000061340917
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel4"
+        contactMaterial "ExteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.0001481496222256795
+        axis 0 1 0
+        anchor 0.08 0 -0.055
+      }
+      device [
+        DEF encoder1 PositionSensor {
+          name "encoder1"
+        }
+        DEF motor1 RotationalMotor {
+          name "motor1"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel1 Solid {
+        translation 0.0799999999999999 0.08400000000000006 -0.05500000000000001
+        rotation 0.9999999945085494 7.413382209748704e-05 -7.407481084154633e-05 1.5700000054914474
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel1"
+        contactMaterial "ExteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.0001509918891059744
+        axis 0 1 0
+        anchor 0.08 0 -0.055
+      }
+      device [
+        DEF encoder2 PositionSensor {
+          name "encoder2"
+        }
+        DEF motor2 RotationalMotor {
+          name "motor2"
+          maxVelocity 20
+        }
+      ]
+      endPoint DEF wheel2 Solid {
+        translation 0.07999999999999993 -0.08399999999999995 -0.05499999999999997
+        rotation 0.99999999429582 -7.555608765917901e-05 7.549594426577792e-05 1.5700000057041767
+        children [
+          DEF Wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+            }
+            geometry Cylinder {
+              height 0.0304
+              radius 0.0325
+            }
+          }
+        ]
+        name "wheel2"
+        contactMaterial "InteriorWheelMat"
+        boundingObject USE Wheel
+        physics DEF Physics_wh Physics {
+        }
+      }
+    }
+  ]
+  name "robot2"
+  boundingObject USE Body
+  physics Physics {
+  }
+  rotationStep 0.01
+  controller "<extern>"
+  supervisor TRUE
+}
