@@ -20,12 +20,13 @@ class LeaderFollowerController(Node):
         self.declare_parameter("d_goal", 0.1)
         self.declare_parameter('alpha_goal', 0.0)
         self.declare_parameter('theta_f_goal', 0.0)
+        self.declare_parameter("K", [1.0,1.0,1.0])
 
         # Controller gains
         self.d_goal = self.get_parameter('d_goal').get_parameter_value().double_value
         self.alpha_goal = self.get_parameter('alpha_goal').get_parameter_value().double_value
         self.theta_f_goal = self.get_parameter('theta_f_goal').get_parameter_value().double_value
-        self.K = np.array([1,0.5,0.5])
+        self.K = np.array(self.get_parameter('K').get_parameter_value().double_array_value)
 
         self.q1 = np.array(self.get_parameter('robot1_initial_pose').get_parameter_value().double_array_value)
         self.q2 = np.array(self.get_parameter('robot2_initial_pose').get_parameter_value().double_array_value)
