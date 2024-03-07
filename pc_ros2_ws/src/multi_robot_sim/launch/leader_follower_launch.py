@@ -78,8 +78,8 @@ def generate_launch_description():
             {'robot1_initial_pose': [0.0,-0.5,0.0]},
             {'robot2_initial_pose': [0.0,0.5,0.0]},
             {'d_goal': 0.4},
-            {'alpha_goal': 1.57},
-            {'theta_f_goal': 1.57}
+            {'alpha_goal': 0.0},
+            {'theta_f_goal': 0.0}
         ]
     )
 

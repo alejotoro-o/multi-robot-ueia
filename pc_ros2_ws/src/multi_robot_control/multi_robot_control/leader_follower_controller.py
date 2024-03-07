@@ -73,7 +73,10 @@ class LeaderFollowerController(Node):
 
     def __control_callback(self):
 
-        self.theta_f_goal = self.alpha_goal = self.q1[2]
+        #self.theta_f_goal = self.alpha_goal = self.q1[2]
+        ## Caging
+        self.theta_f_goal = self.q1[2] - np.pi
+        self.theta_f_goal = ((self.theta_f_goal + np.pi)%(2*np.pi)) - np.pi
 
         d = np.sqrt((self.q1[0] - self.q2[0])**2 + (self.q1[1] - self.q2[1])**2)
         alpha = self.q2[2] - np.arctan2((self.q1[1] - self.q2[1]), (self.q1[0] - self.q2[0]))
@@ -85,12 +88,15 @@ class LeaderFollowerController(Node):
         B = np.array([[np.cos(alpha),-np.sin(alpha),0],
                       [-(1/d)*np.sin(alpha),-(1/d)*np.cos(alpha),-1],
                       [0,0,-1]])
-        
-        #n_dot = np.dot(A, self.u_l) - np.dot(B, self.u_f)
 
+        # p_d = np.array([[-self.K[0]*(d - self.d_goal)],
+        #                 [self.u_l[2,0]-self.K[1]*(alpha - self.alpha_goal)],
+        #                 [self.u_l[2,0]-self.K[2]*(self.q2[2] - self.theta_f_goal)]])  
+
+        ## Caging
         p_d = np.array([[-self.K[0]*(d - self.d_goal)],
-                        [self.u_l[2,0]-self.K[1]*(alpha - self.alpha_goal)],
-                        [self.u_l[2,0]-self.K[2]*(self.q2[2] - self.theta_f_goal)]])  
+                        [-self.K[1]*(alpha - self.alpha_goal)],
+                        [self.u_l[2,0] - self.K[2]*(self.q2[2] - self.theta_f_goal)]]) 
     
 
         self.u_f = np.dot(np.linalg.inv(B), (np.dot(A, self.u_l) - p_d))

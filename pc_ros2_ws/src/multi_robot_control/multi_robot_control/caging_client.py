@@ -1,9 +1,7 @@
 import rclpy
 from rclpy.node import Node
-from rclpy.executors import MultiThreadedExecutor
 from rclpy.action import ActionClient
 
-from std_msgs.msg import Bool
 from interfaces.action import NavToPose, ApproachObject, ControlGripper
 
 import threading
@@ -72,6 +70,8 @@ class CagingClient(Node):
         while self.executing:
             pass
 
+        time.sleep(1)
+
         self.robot1_nav_to_pose_client.wait_for_server()
         self.robot2_nav_to_pose_client.wait_for_server()
 
@@ -115,6 +115,8 @@ class CagingClient(Node):
 
         while self.executing:
             pass
+
+        time.sleep(1)
 
     def get_q_goals(self, object_pose, object_radius):
 
