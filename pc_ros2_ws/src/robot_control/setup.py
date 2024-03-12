@@ -27,7 +27,12 @@ setup(
             'follow_path_client = robot_control.follow_path_client:main',
 
             'follow_trajectory_server = robot_control.follow_trajectory:main',
-            'follow_trajectory_client = robot_control.follow_trajectory_client:main'
+            'follow_trajectory_client = robot_control.follow_trajectory_client:main',
+
+            'cmd_vel_trans = robot_control.cmd_vel_trans:main',
+
+            "lc_lqr_controller = robot_control.lc_lqr_controller:main",
+            "lc_cmd_vel_trans = robot_control.lc_cmd_vel_trans:main"
         ],
     },
 )

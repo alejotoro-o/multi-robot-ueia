@@ -25,7 +25,10 @@ setup(
 
             "caging_client = multi_robot_control.caging_client:main",
 
-            "leader_follower_controller = multi_robot_control.leader_follower_controller:main"
+            "leader_follower_controller = multi_robot_control.leader_follower_controller:main",
+
+            "lc_caging_controller = multi_robot_control.lc_caging_controller:main",
+            "lc_caging_client = multi_robot_control.lc_caging_client:main"
         ],
     },
 )
