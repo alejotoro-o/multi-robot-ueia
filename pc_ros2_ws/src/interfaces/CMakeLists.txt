@@ -23,6 +23,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/FollowTrajectory.action"
   "action/ApproachObject.action"
   "action/ControlGripper.action"
+  "action/ControlGripperAngle.action"
 )
 
 if(BUILD_TESTING)

@@ -69,7 +69,7 @@ class ApproachObjectServer(Node):
     
     def get_q_goals(self, object_pose, object_radius):
 
-        distance_to_object = 2*object_radius + 0.15
+        distance_to_object = 4*object_radius + 0.15
 
         q1_x = object_pose.x + distance_to_object*np.sin(object_pose.theta)
         q1_y = object_pose.y - distance_to_object*np.cos(object_pose.theta)
@@ -120,7 +120,7 @@ class ApproachObjectServer(Node):
         goal_msg.path  = self.get_path(start_robot1, end_robot1,
                                        [
                                            (start_robot2[0],start_robot2[1],0.2),
-                                           (object.object_pose.x, object.object_pose.y, object.radius),
+                                           (object.object_pose.x, object.object_pose.y, 2*object.radius),
                                        ])
         goal_msg.time = time
 
@@ -140,7 +140,7 @@ class ApproachObjectServer(Node):
         goal_msg.path  = self.get_path(start_robot2, end_robot2,
                                        [
                                            (end_robot1[0],end_robot1[1],0.2),
-                                           (object.object_pose.x, object.object_pose.y, object.radius),
+                                           (object.object_pose.x, object.object_pose.y, 2*object.radius),
                                        ])
 
         self._action_client_robot2.wait_for_server()
