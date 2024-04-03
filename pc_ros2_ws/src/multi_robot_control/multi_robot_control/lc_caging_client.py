@@ -4,6 +4,7 @@ from rclpy.action import ActionClient
 
 from lifecycle_msgs.msg import State, Transition
 from lifecycle_msgs.srv import GetState, ChangeState
+from interfaces.msg import Pose2D
 from interfaces.action import NavToPose, ApproachObject, ControlGripper
 
 import threading
@@ -36,6 +37,9 @@ class CagingClient(Node):
         self.robot2_caging_controller_get_state_client = self.create_client(GetState, "lc_caging_controller/get_state")
         self.robot2_caging_controller_change_state_client = self.create_client(ChangeState, "lc_caging_controller/change_state")
 
+        self.caging_lqr_get_state_client = self.create_client(GetState, "caging_lqr_controller/get_state")
+        self.caging_lqr_change_state_client = self.create_client(ChangeState, "caging_lqr_controller/change_state")
+
         self.executing = False
 
     def caging(self):
@@ -47,6 +51,10 @@ class CagingClient(Node):
         self.deactivate_lqr()
 
         self.activate_caging_controller()
+
+        time.sleep(1)
+
+        self.activate_caging_lqr()
 
         
 
@@ -150,7 +158,25 @@ class CagingClient(Node):
 
         return (q1_x, q1_y, q1_theta), (q2_x, q2_y, q2_theta)
 
+    def generate_caging_trajectory(self):
 
+        trajectory_time = 10
+        num_waypoints = 20
+
+        time_to_waypoint = trajectory_time/num_waypoints
+
+        path = []
+
+        for i in range(num_waypoints):
+
+            waypoint = Pose2D()
+            waypoint.x = np.sin(0.1*i*time_to_waypoint)
+            waypoint.y = np.cos(0.1*i*time_to_waypoint)
+            waypoint.theta = 0
+
+            path.append(waypoint)
+
+        return path
 
     def goal_response_callback(self, future):
 
@@ -174,7 +200,8 @@ class CagingClient(Node):
     ############################
     ## Manage LifeCycle Nodes ##
     ############################
-        
+    
+    ## LQR Controllers
     def get_lqr_state(self):
 
         ## Get State
@@ -208,6 +235,7 @@ class CagingClient(Node):
         self.get_logger().info("Robot 1 LQR Controller transition result: %s" % r1_transition_result)
         self.get_logger().info("Robot 2 LQR Controller transition result: %s" % r2_transition_result)
 
+    ## Caging Controller
     def get_caging_controller_state(self):
         
         ## Get State
@@ -235,6 +263,35 @@ class CagingClient(Node):
 
         r2_transition_result = r2_change_state_future.result().success
         self.get_logger().info("Robot 2 Caging Controller transition result: %s" % r2_transition_result)
+
+    ## Caging LQR Controller
+    def get_caging_lqr_state(self):
+        
+        ## Get State
+        get_state_request = GetState.Request()
+
+        r2_get_state_future = self.caging_lqr_get_state_client.call_async(get_state_request)
+
+        while not r2_get_state_future.done():
+            pass
+
+        r2_state = r2_get_state_future.result().current_state.label
+        self.get_logger().info("Caging LQR Controller state: %s" % r2_state)
+
+
+    def change_caging_lqr_state(self, transition):
+        
+        ## Change State
+        change_state_request = ChangeState.Request()
+        change_state_request.transition.id = transition
+
+        r2_change_state_future = self.caging_lqr_change_state_client.call_async(change_state_request)
+
+        while not r2_change_state_future.done():
+            pass
+
+        r2_transition_result = r2_change_state_future.result().success
+        self.get_logger().info("Caging LQR Controller transition result: %s" % r2_transition_result)
 
         
     def activate_lqr(self):
@@ -278,9 +335,20 @@ class CagingClient(Node):
         transition = Transition.TRANSITION_ACTIVATE
         self.change_caging_controller_state(transition)
         self.get_caging_controller_state()
+
+    def activate_caging_lqr(self):
         
+        while not self.caging_lqr_get_state_client.wait_for_service(1.0):
+            self.get_logger().info("Waiting for Caging Controller LifeCycle Node services...")
 
+        ## Change state
+        transition = Transition.TRANSITION_CONFIGURE
+        self.change_caging_lqr_state(transition)
+        self.get_caging_lqr_state()
 
+        transition = Transition.TRANSITION_ACTIVATE
+        self.change_caging_lqr_state(transition)
+        self.get_caging_lqr_state()
 
         
 
@@ -294,8 +362,6 @@ def main(args=None):
     thread.start()
 
     caging_client.caging()
-
-    #rclpy.spin(caging_client, executor=MultiThreadedExecutor())
 
     caging_client.destroy_node()
     rclpy.shutdown()

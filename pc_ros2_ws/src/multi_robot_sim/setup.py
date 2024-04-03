@@ -7,6 +7,7 @@ data_files.append(('share/' + package_name + '/launch', ['launch/multi_robot_lau
 data_files.append(('share/' + package_name + '/launch', ['launch/caging_launch.py']))
 data_files.append(('share/' + package_name + '/launch', ['launch/lc_caging_launch.py']))
 data_files.append(('share/' + package_name + '/launch', ['launch/leader_follower_launch.py']))
+data_files.append(('share/' + package_name + '/launch', ['launch/lc_caging_launch_full.py']))
 
 data_files.append(('share/' + package_name + '/worlds', ['worlds/multi_robot.wbt']))
 data_files.append(('share/' + package_name + '/worlds', ['worlds/multi_robot_caging.wbt']))
@@ -39,6 +40,8 @@ setup(
             'multi_robot_driver2 = multi_robot_sim.multi_robot_driver2:main',
 
             'control_gripper_server = multi_robot_sim.control_gripper_node:main',
+
+            'object_pose_publisher = multi_robot_sim.object_pose_publisher:main'
         ],
     },
 )

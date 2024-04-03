@@ -549,5 +549,7 @@ DEF object Solid {
   name "object"
   boundingObject USE object
   physics Physics {
+    density -1
+    mass 0.1
   }
 }
