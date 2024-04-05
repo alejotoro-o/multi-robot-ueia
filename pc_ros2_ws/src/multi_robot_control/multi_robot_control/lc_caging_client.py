@@ -5,7 +5,7 @@ from rclpy.action import ActionClient
 from lifecycle_msgs.msg import State, Transition
 from lifecycle_msgs.srv import GetState, ChangeState
 from interfaces.msg import Pose2D
-from interfaces.action import NavToPose, ApproachObject, ControlGripper
+from interfaces.action import NavToPose, ApproachObject, ControlGripper, FollowTrajectory
 
 import threading
 import numpy as np
@@ -19,6 +19,11 @@ class CagingClient(Node):
 
         self.declare_parameter('object_pose', [0.0,0.0,0.0])
         self.declare_parameter('object_radius', 0.0)
+        self.declare_parameter('num_waypoints', 20)
+        self.num_waypoints = self.get_parameter('num_waypoints').get_parameter_value().integer_value
+        self.declare_parameter('trajectory_time', 10.0)
+        self.declare_parameter('trajectory_orientation', 3*np.pi/4)
+        self.trajectory_orientation = self.get_parameter('trajectory_orientation').get_parameter_value().double_value
 
         self.approach_object_client = ActionClient(self, ApproachObject, "approach_object")
 
@@ -27,6 +32,8 @@ class CagingClient(Node):
 
         self.robot1_nav_to_pose_client = ActionClient(self, NavToPose, "robot1/nav_to_pose")
         self.robot2_nav_to_pose_client = ActionClient(self, NavToPose, "robot2/nav_to_pose")
+
+        self.caging_follow_trajectory_client = ActionClient(self, FollowTrajectory, "follow_trajectory")
 
         ## LifeCycle Clients
         self.robot1_lqr_get_state_client = self.create_client(GetState, "robot1/lc_lqr_controller/get_state")
@@ -56,7 +63,35 @@ class CagingClient(Node):
 
         self.activate_caging_lqr()
 
-        
+        ## Follow trajectory after caging object
+        path = self.generate_caging_trajectory()
+
+        goal_msg = FollowTrajectory.Goal()
+        goal_msg.path = [path[0]]
+        goal_msg.time = 10.0
+
+        self.caging_follow_trajectory_client.wait_for_server()
+        follow_trajectory_future = self.caging_follow_trajectory_client.send_goal_async(goal_msg)
+        follow_trajectory_future.add_done_callback(self.goal_response_callback)
+
+        self.executing = True
+
+        while self.executing:
+            pass
+
+        #goal_msg = FollowTrajectory.Goal()
+        goal_msg.path = path
+        goal_msg.time = self.get_parameter('trajectory_time').get_parameter_value().double_value
+
+        self.caging_follow_trajectory_client.wait_for_server()
+        follow_trajectory_future = self.caging_follow_trajectory_client.send_goal_async(goal_msg)
+        follow_trajectory_future.add_done_callback(self.goal_response_callback)
+
+        self.executing = True
+
+        while self.executing:
+            pass
+
 
     def grab_object(self):
 
@@ -160,19 +195,22 @@ class CagingClient(Node):
 
     def generate_caging_trajectory(self):
 
-        trajectory_time = 10
-        num_waypoints = 20
+        points = np.linspace(0, 2*np.pi, self.num_waypoints)
 
-        time_to_waypoint = trajectory_time/num_waypoints
+        waypoints = np.array([np.cos(points), np.sin(points)])
+        waypoints = list(waypoints.T)
 
         path = []
 
-        for i in range(num_waypoints):
+        for w in waypoints:
 
             waypoint = Pose2D()
-            waypoint.x = np.sin(0.1*i*time_to_waypoint)
-            waypoint.y = np.cos(0.1*i*time_to_waypoint)
-            waypoint.theta = 0
+            waypoint.x = float(w[0])
+            waypoint.y = float(w[1])
+            if self.trajectory_orientation == -1:
+                waypoint.theta = np.arctan2(w[1],w[0]) + np.pi/2
+            else:
+                waypoint.theta = self.trajectory_orientation
 
             path.append(waypoint)
 

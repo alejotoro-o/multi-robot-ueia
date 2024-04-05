@@ -111,7 +111,7 @@ def generate_launch_description():
         parameters=[
             {'initial_pose': [0.0,0.0,3*0.78]},
             {'Q_factor': 0.1},
-            {'R_factor': 0.8},
+            {'R_factor': 0.1},
         ],
         remappings=[
             ('/pose', '/object/pose'),
