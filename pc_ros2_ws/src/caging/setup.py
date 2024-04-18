@@ -7,6 +7,7 @@ data_files.append(('share/ament_index/resource_index/packages', ['resource/' + p
 data_files.append(('share/' + package_name + '/launch', ['launch/multi_robot_launch.py']))
 data_files.append(('share/' + package_name + '/launch', ['launch/leader_follower_launch.py']))
 data_files.append(('share/' + package_name + '/launch', ['launch/lc_caging_launch.py']))
+data_files.append(('share/' + package_name + '/launch', ['launch/lc_caging_launch_full.py']))
 
 data_files.append(('share/' + package_name + '/resource', ['resource/caging_map.jpg']))
 data_files.append(('share/' + package_name, ['package.xml']))
@@ -25,7 +26,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'lc_caging_client = caging.lc_caging_client:main'
+            'lc_caging_client = caging.lc_caging_client:main',
+            'lc_caging_client_full = caging.lc_caging_client_full:main'
         ],
     },
 )

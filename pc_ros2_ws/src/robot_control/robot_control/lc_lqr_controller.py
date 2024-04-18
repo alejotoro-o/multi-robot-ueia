@@ -47,7 +47,7 @@ class LQRController(Node):
         #                                 [-1/(lx+ly), 1/(lx+ly), -1/(lx+ly), 1/(lx+ly)]])
 
         # Publishers, subscribers and actions
-        self._pose_subscription = self.create_subscription(Pose, 'pose', self._control_callback, 1)
+        self._pose_subscription = self.create_subscription(Pose, 'pose', self._control_callback, 10)
         self._cmd_vel_publisher: Optional[Publisher] = None
 
         self._nav_to_pose_action_server = ActionServer(self, NavToPose,
