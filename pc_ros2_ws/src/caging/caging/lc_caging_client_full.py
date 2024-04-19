@@ -162,13 +162,13 @@ class CagingClient(Node):
         while self.executing:
             pass
 
-        time.sleep(2)
+        time.sleep(4)
 
         self.robot1_gripper_control_client.wait_for_server()
         self.robot2_gripper_control_client.wait_for_server()
 
         gripper_msg = ControlGripperAngle.Goal()
-        gripper_msg.angle = 40
+        gripper_msg.angle = 60
 
         r1_gripper_future = self.robot1_gripper_control_client.send_goal_async(gripper_msg)
         r1_gripper_future.add_done_callback(self.goal_response_callback)
@@ -200,7 +200,7 @@ class CagingClient(Node):
 
         points = np.linspace(0, 2*np.pi, self.num_waypoints)
 
-        waypoints = np.array([0.5*np.cos(points), 0.5*np.sin(points)])
+        waypoints = np.array([1*np.cos(points), 1*np.sin(points)])
         waypoints = list(waypoints.T)
 
         path = []

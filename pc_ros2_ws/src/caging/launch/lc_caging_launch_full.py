@@ -29,7 +29,7 @@ def generate_launch_description():
         package='multi_robot_sim',
         executable='object_pose_publisher',
         parameters=[
-            {'d': 0.3},
+            {'d': 0.2},
         ],
         remappings=[
             ('/pose', '/robot1/pose'),
@@ -64,8 +64,9 @@ def generate_launch_description():
         package='multi_robot_control',
         executable='lc_caging_controller',
         parameters=[
-            {'d_goal': 0.6},
+            {'d_goal': 0.5},
             {'alpha_goal': 0.0},
+            {'K': [2,0.5,0.5]}
         ]
     )
 
