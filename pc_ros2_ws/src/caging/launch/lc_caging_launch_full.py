@@ -66,7 +66,7 @@ def generate_launch_description():
         parameters=[
             {'d_goal': 0.5},
             {'alpha_goal': 0.0},
-            {'K': [2,0.5,0.5]}
+            {'K': [2.0,1.0,1.0]}
         ]
     )
 

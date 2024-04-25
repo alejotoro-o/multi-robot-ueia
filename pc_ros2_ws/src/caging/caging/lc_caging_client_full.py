@@ -19,6 +19,8 @@ class CagingClient(Node):
 
         self.declare_parameter('object_pose', [0.0,0.0,0.0])
         self.declare_parameter('object_radius', 0.0)
+        self.declare_parameter('gripper_angle', 60)
+        self.gripper_angle = self.get_parameter('gripper_angle').get_parameter_value().integer_value
         self.declare_parameter('num_waypoints', 20)
         self.num_waypoints = self.get_parameter('num_waypoints').get_parameter_value().integer_value
         self.declare_parameter('trajectory_time', 10.0)
@@ -168,7 +170,7 @@ class CagingClient(Node):
         self.robot2_gripper_control_client.wait_for_server()
 
         gripper_msg = ControlGripperAngle.Goal()
-        gripper_msg.angle = 60
+        gripper_msg.angle = self.gripper_angle
 
         r1_gripper_future = self.robot1_gripper_control_client.send_goal_async(gripper_msg)
         r1_gripper_future.add_done_callback(self.goal_response_callback)
