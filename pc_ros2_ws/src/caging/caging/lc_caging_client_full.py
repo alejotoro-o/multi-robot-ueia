@@ -73,7 +73,11 @@ class CagingClient(Node):
         path = self.generate_caging_trajectory()
 
         goal_msg = FollowTrajectory.Goal()
-        goal_msg.path = [path[0]]
+        w = Pose2D()
+        w.x = path[0].x/2
+        w.y = path[0].y/2
+        w.theta = path[0].theta
+        goal_msg.path = [w,path[0]]
         goal_msg.time = 10.0
 
         self.caging_follow_trajectory_client.wait_for_server()

@@ -83,7 +83,9 @@ class LeaderFollowerController(Node):
 
         d = np.sqrt((self.q1[0] - self.q2[0])**2 + (self.q1[1] - self.q2[1])**2)
         alpha = self.q2[2] - np.arctan2((self.q1[1] - self.q2[1]), (self.q1[0] - self.q2[0]))
+        alpha = ((alpha + np.pi)%(2*np.pi)) - np.pi ## NEW: Normalize alpha angle
         gamma = self.q1[2] - self.q2[2] + alpha
+        gamma = ((gamma + np.pi)%(2*np.pi)) - np.pi ## NEW: Normalize gamma angle
 
         A = np.array([[np.cos(gamma),-np.sin(gamma),0],
                       [-(1/d)*np.sin(gamma),-(1/d)*np.cos(gamma),0],
@@ -97,9 +99,20 @@ class LeaderFollowerController(Node):
         #                 [self.u_l[2,0]-self.K[2]*(self.q2[2] - self.theta_f_goal)]])  
 
         ## Caging
+        alpha_error = alpha - self.alpha_goal ## NEW: Shortest rotation alpha angle
+        if alpha_error > np.pi:
+            alpha_error += -2*np.pi
+        elif alpha_error < -np.pi:
+            alpha_error += 2*np.pi
+
+        theta_error = self.q2[2] - self.theta_f_goal ## NEW: Shortest rotation theta angle
+        if theta_error > np.pi:
+            theta_error += -2*np.pi
+        elif theta_error < -np.pi:
+            theta_error += 2*np.pi
         p_d = np.array([[-self.K[0]*(d - self.d_goal)],
-                        [-self.K[1]*(alpha - self.alpha_goal)],
-                        [self.u_l[2,0] - self.K[2]*(self.q2[2] - self.theta_f_goal)]]) 
+                        [-self.K[1]*(alpha_error)],
+                        [self.u_l[2,0] - self.K[2]*(theta_error)]]) 
     
 
         self.u_f = np.dot(np.linalg.inv(B), (np.dot(A, self.u_l) - p_d))

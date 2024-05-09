@@ -64,7 +64,7 @@ def generate_launch_description():
         package='multi_robot_control',
         executable='lc_caging_controller',
         parameters=[
-            {'d_goal': 0.5},
+            {'d_goal': 0.4},
             {'alpha_goal': 0.0},
             {'K': [2.0,1.0,1.0]}
         ]
@@ -77,7 +77,7 @@ def generate_launch_description():
         parameters=[
             {'initial_pose': [0.0,0.0,0.0]},
             {'Q_factor': 0.1},
-            {'R_factor': 0.8},
+            {'R_factor': 0.1},
         ],
         remappings=[
             ('/pose', '/vobject/pose'),
