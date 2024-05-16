@@ -73,11 +73,37 @@ class CagingClient(Node):
         path = self.generate_caging_trajectory()
 
         goal_msg = FollowTrajectory.Goal()
-        w = Pose2D()
-        w.x = path[0].x/2
-        w.y = path[0].y/2
-        w.theta = path[0].theta
-        goal_msg.path = [w,path[0]]
+        # w = Pose2D()
+        # w.x = path[0].x/2
+        # w.y = path[0].y/2
+        # w.theta = path[0].theta
+        # goal_msg.path = [w,path[0]]
+
+        #######################################
+        ## NEW: TRAJECTORY TO STARTING POINT ##
+        object_pose = self.get_parameter('object_pose').get_parameter_value().double_array_value
+        theta_error = path[0].theta - (object_pose[2] + np.pi/2)
+        if theta_error > np.pi:
+            theta_error += -2*np.pi
+        elif theta_error < -np.pi:
+            theta_error += 2*np.pi
+
+        n_w = 10
+        x_error = np.linspace(path[0].x - object_pose[0], 0, n_w)
+        y_error = np.linspace(path[0].y - object_pose[1], 0, n_w)
+        orient_error = np.linspace(theta_error, 0, n_w)
+        start_pos_path = []
+        for i in range(n_w):
+
+            point = Pose2D()
+            point.x = path[0].x - x_error[i]
+            point.y = path[0].y - y_error[i]
+            point.theta = path[0].theta - orient_error[i]
+            point.theta = ((point.theta + np.pi)%(2*np.pi)) - np.pi
+
+            start_pos_path.append(point)
+        goal_msg.path = start_pos_path
+        #######################################
         goal_msg.time = 10.0
 
         self.caging_follow_trajectory_client.wait_for_server()

@@ -25,11 +25,12 @@ def generate_launch_description():
         executable='object_pose_publisher'
     )
 
+    d_goal = 0.5
     object_pose_publisher = Node(
         package='multi_robot_sim',
         executable='object_pose_publisher',
         parameters=[
-            {'d': 0.2},
+            {'d': d_goal/2},
         ],
         remappings=[
             ('/pose', '/robot1/pose'),
@@ -64,7 +65,7 @@ def generate_launch_description():
         package='multi_robot_control',
         executable='lc_caging_controller',
         parameters=[
-            {'d_goal': 0.4},
+            {'d_goal': d_goal},
             {'alpha_goal': 0.0},
             {'K': [2.0,1.0,1.0]}
         ]
